@@ -1,5 +1,7 @@
 import { Router } from 'express';
+
 import { validationCheck } from 'src/libs/validation';
+
 import { authenticationMiddleware } from 'src/middlewares/authentication.middleware';
 
 export class BaseController {

@@ -1,19 +1,32 @@
-// todo:: (change) Errors
 export const ErrorCodes = {
-    API_VALIDATION_ERROR: {
-        name: 'API_VALIDATION_ERROR',
-        code: 400
-    },
     NO_ACCESS: {
-        name: 'NO_ACCESS',
-        code: 400
+        code: 'NO_ACCESS',
+        status: 400,
+        defaultMessage: 'You do not have the rights to access this service'
     },
     EXPIRED_SESSION: {
-        name: 'EXPIRED_SESSION',
-        code: 401
+        code: 'EXPIRED_SESSION',
+        status: 401,
+        defaultMessage: 'This session is expired'
     },
     INVALID_TOKEN: {
-        name: 'INVALID_TOKEN',
-        code: 401
+        code: 'INVALID_TOKEN',
+        status: 401,
+        defaultMessage: 'Invalid token'
+    },
+    USER_NOT_FOUND: {
+        code: 'USER_NOT_FOUND',
+        status: 400,
+        defaultMessage: 'User was not found'
+    },
+    ALREADY_EXISTS: {
+        code: 'ALREADY_EXISTS',
+        status: 409,
+        defaultMessage: 'This already exists'
+    },
+    DOES_NOT_EXIST: {
+        code: 'DOES_NOT_EXIST',
+        status: 409,
+        defaultMessage: 'This does not exist'
     }
 };

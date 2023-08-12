@@ -1,6 +1,8 @@
-import Redis, { RedisOptions } from 'ioredis';
-import { REDIS_URL } from 'src/config';
+import Redis, { RedisKey, RedisOptions } from 'ioredis';
+
 import { logger } from 'src/libs/logger';
+
+import { REDIS_URL } from 'src/config';
 
 export class RedisClient {
     private readonly redis: Redis;
@@ -10,7 +12,8 @@ export class RedisClient {
     public isConnected: boolean;
 
     constructor() {
-        this.redis = new Redis(REDIS_URL, this.redisConfig);
+        this.isConnected = false;
+        this.redis = new Redis(REDIS_URL as string, this.redisConfig);
 
         this.redis.on('connect', () => {
             logger.info('Connected to Redis.');
@@ -31,7 +34,7 @@ export class RedisClient {
         return false;
     }
 
-    public get(key: string): Promise<string> {
+    public get(key: string): Promise<string | null> {
         return this.redis.get(key);
     }
 
@@ -40,6 +43,6 @@ export class RedisClient {
     }
 
     public set(key: string, value: string, seconds?: number): Promise<string> {
-        return this.redis.set(key, value, 'EX', seconds);
+        return this.redis.set(key as RedisKey, value, 'EX', seconds);
     }
 }

@@ -3,6 +3,7 @@
 import { Request, Response, NextFunction } from 'express';
 import pino from 'pino';
 import PinoHttp, { Options } from 'pino-http';
+
 import { NODE_ENV, SERVICE_NAME, VERSION } from 'src/config';
 
 interface LogFn {
@@ -193,7 +194,23 @@ export function createMiddleware(logger: Logger, opts?: MiddlewareOpts) {
         serializers: {
             req(req: any) {
                 // logs all request body
-                req.body = req.raw.body;
+                const {
+                    id,
+                    method,
+                    url,
+                    query,
+                    // headers,
+                    params
+                } = req;
+
+                req = {
+                    id,
+                    method,
+                    url,
+                    query,
+                    params,
+                    body: req.raw.body
+                };
                 return req;
             },
             res(res) {

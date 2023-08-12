@@ -1,15 +1,11 @@
 import { Joi } from 'express-validation';
 
-export const config = {
-    context: true,
-    statusCode: 422,
-    keyByField: true
-};
+import { Schema } from 'src/domain/dto/types';
 
-export const validationSchemas = {
-    idFromParams: {
+export class Schemas {
+    public static idFromParams: Schema = {
         params: Joi.object({
             id: Joi.number().required()
         })
-    }
-};
+    };
+}

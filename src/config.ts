@@ -17,7 +17,7 @@ export const { PG_USER } = process.env;
 export const { PG_PASSWORD } = process.env;
 
 // REDIS
-export const { REDIS_URL } = process.env;
+export const { REDIS_URL, REDIS_PASSWORD } = process.env;
 
 // Envvars for auth
 export const JWT_ALGORITHM = process.env.JWT_ALGORITHM || 'HS256';

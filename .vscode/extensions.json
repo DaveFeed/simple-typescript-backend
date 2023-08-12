@@ -2,7 +2,6 @@
     "recommendations": [
         "aaron-bond.better-comments",
         "dbaeumer.vscode-eslint",
-        "donjayamanne.githistory",
         "esbenp.prettier-vscode",
         "humao.rest-client",
         "irongeek.vscode-env",

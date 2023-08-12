@@ -1,7 +1,9 @@
-import { RedisPayload } from 'src/domain/dto/types';
-import { TokenTypesEnum } from 'src/domain/enums';
-import { ONE_DAY, ONE_HOUR /* ONE_MINUTE */ } from 'src/domain/constants';
 import { RedisClient } from 'src/libs/redis';
+
+import { TokenTypesEnum } from 'src/domain/enums';
+import { ONE_DAY } from 'src/domain/constants';
+
+import { RedisPayload } from 'src/domain/dto/types';
 
 export class RedisRepository {
     private readonly redis: RedisClient;
@@ -15,7 +17,7 @@ export class RedisRepository {
     }
 
     public async setAccessToken(token: string, payload: RedisPayload): Promise<string> {
-        return this.redis.set(`${TokenTypesEnum.ACCESS_TOKEN}:${token}`, JSON.stringify(payload), ONE_HOUR);
+        return this.redis.set(`${TokenTypesEnum.ACCESS_TOKEN}:${token}`, JSON.stringify(payload), ONE_DAY);
     }
 
     public async deleteTokenFromRedis(type: TokenTypesEnum, token: string): Promise<number> {

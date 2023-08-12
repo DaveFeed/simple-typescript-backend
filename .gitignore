@@ -150,10 +150,9 @@ docker-compose.dockest-generated.yml
 
 package-lock.json
 
-uploads/
-
 jwtRS256.key
 jwtRS256.key.pub
 
+# personal
 logs.txt
 Logs.txt

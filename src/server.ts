@@ -1,27 +1,12 @@
 import 'source-map-support/register';
 import './module-alias';
 
-// This needs to be imported before everything else.
-// eslint-disable-next-line import/order
-
-import { createApp } from 'src/app';
 import gracefulShutdown from 'http-graceful-shutdown';
-import { logger } from './libs/logger';
+import { createApp } from 'src/app';
+import { logger } from 'src/libs/logger';
 
-const TRAEFIK_IDLE_TIMEOUT = 180; // Traefik, Trident's transport layer, has this default idle timeout in ms
-
-/**
- * Helper function to log an exit code before exiting the process.
- */
-const logAndExitProcess = (exitCode: number) => {
-    logger.info(
-        {
-            exit_code_number: exitCode
-        },
-        'Exiting process'
-    );
-    process.exit(exitCode);
-};
+// Traefik, Trident's transport layer, has this default idle timeout in ms
+const TRAEFIK_IDLE_TIMEOUT = 180;
 
 /**
  * Sets up event listeners on unexpected errors and warnings. These should theoretically
@@ -29,15 +14,18 @@ const logAndExitProcess = (exitCode: number) => {
  * exit the process with code 1.
  */
 const setupProcessEventListeners = () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    process.on('unhandledRejection', (reason: any) => {
+    process.on('unhandledRejection', (reason: unknown) => {
         logger.warn({ reason_object: reason }, 'Encountered unhandled rejection');
-        logAndExitProcess(1);
+        logger.info({ exit_code_number: 1 }, 'Exiting process');
+
+        process.exit(1);
     });
 
     process.on('uncaughtException', (err: Error) => {
         logger.error(err, 'Encountered uncaught exception');
-        logAndExitProcess(1);
+        logger.info({ exit_code_number: 1 }, 'Exiting process');
+
+        process.exit(1);
     });
 
     process.on('warning', (warning: Error) => {
@@ -59,19 +47,9 @@ const setupProcessEventListeners = () => {
 
         /**
          * These settings are to avoid 502 HTTP errors (connection reset by peer)
-         * TLDR:
-         * keepAliveTimeout needs to be greater than 180
-         * headersTimeout needs to be greater than keepAliveTimeout
-         * Further reading:
-         *   https://shuheikagawa.com/blog/2019/04/25/keep-alive-timeout/
-         *   https://adamcrowder.net/posts/node-express-api-and-aws-alb-502/
-         *   https://github.com/nodejs/node/issues/27363
-         *   https://nodejs.org/docs/latest-v10.x/api/http.html#http_server_keepalivetimeout
-         *   https://doc.traefik.io/traefik/routing/entrypoints/#transport
          */
-
-        server.keepAliveTimeout = 181000;
-        server.headersTimeout = 185000;
+        server.keepAliveTimeout = (TRAEFIK_IDLE_TIMEOUT + 1) * 1000;
+        server.headersTimeout = (TRAEFIK_IDLE_TIMEOUT + 5) * 1000;
 
         gracefulShutdown(server, {
             onShutdown: async () => {
@@ -80,6 +58,6 @@ const setupProcessEventListeners = () => {
         });
         setupProcessEventListeners();
     } catch (err) {
-        logger.error(err, 'Error caught in server.ts');
+        logger.error(err as Error, 'Error caught in server.ts');
     }
 })();

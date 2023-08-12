@@ -4,13 +4,14 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
 
-import { PORT, HOST } from 'src/config';
+import { PostgresClient } from 'src/libs/postgres';
+import { RedisClient } from 'src/libs/redis';
+import { logger, createMiddleware } from 'src/libs/logger';
+
 import { errorHandler } from 'src/middlewares/error-handler.middleware';
 
 import { init } from 'src/init';
-import { logger, createMiddleware } from 'src/libs/logger';
-import { PostgresClient } from 'src/libs/postgres';
-import { RedisClient } from 'src/libs/redis';
+import { PORT, HOST } from 'src/config';
 
 /**
  * Setup the application routes with controllers
