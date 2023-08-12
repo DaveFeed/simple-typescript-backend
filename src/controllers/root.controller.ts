@@ -1,15 +1,12 @@
-import { Request, Response, Router } from 'express';
+import { Request, Response } from 'express';
 
-export class RootController {
-    private router: Router;
+import { BaseController } from 'src/controllers/base.controller';
 
+export class RootController extends BaseController {
     constructor() {
-        this.router = Router();
-        this.router.get('/', RootController.index);
-    }
+        super();
 
-    getRouter(): Router {
-        return this.router;
+        this.router.get('/', RootController.index);
     }
 
     /**

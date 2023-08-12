@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { UserRepository } from 'src/repositories/user-repository';
+import { UserRepository } from 'src/repositories/user';
+
+import { ShortUserInfo } from 'src/services/user/types';
 
 export class UserService {
     private userRepository: UserRepository;
@@ -8,7 +9,7 @@ export class UserService {
         this.userRepository = userRepository;
     }
 
-    async getUser(id: string) {
+    async getUser(id: number): Promise<ShortUserInfo> {
         return this.userRepository.findById(id);
     }
 }

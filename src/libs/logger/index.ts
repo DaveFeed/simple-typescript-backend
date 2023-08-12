@@ -18,4 +18,5 @@ export const logger = createLogger({
         }
     }
 });
+
 export const createMiddleware = middleware;

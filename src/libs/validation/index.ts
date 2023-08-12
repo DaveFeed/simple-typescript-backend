@@ -1,8 +1,19 @@
-import { validate } from 'express-validation';
+import { schema as ValidationSchema, validate } from 'express-validation';
 
-import { validationSchemas, config } from 'src/libs/validation/schemas';
+import { Middleware } from 'src/domain/dto/types';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function validationCheck(name: string) {
-    return validate(validationSchemas[name as keyof typeof validationSchemas], config, {});
+const config = {
+    context: true,
+    statusCode: 422,
+    keyByField: true
+};
+
+/**
+ * Creates a middleware with the provided schema
+ *
+ * @param schema An express-validation schema
+ * @returns Middleware
+ */
+export function validationCheck(schema: ValidationSchema): Middleware {
+    return validate(schema, config, {});
 }

@@ -1,14 +1,16 @@
 import { Request, Response, Router } from 'express';
+
+import { BaseController } from 'src/controllers/base.controller';
+
 import { HealthcheckService } from 'src/services/healthcheck.service';
 
-export class HealthcheckController {
+export class HealthcheckController extends BaseController {
     private readonly healthcheckService: HealthcheckService;
 
-    private router: Router;
-
     constructor(healthcheckService: HealthcheckService) {
+        super();
+
         this.healthcheckService = healthcheckService;
-        this.router = Router();
         this.router.get('/liveness', HealthcheckController.getHealthcheckLiveness);
         this.router.get('/readiness', this.getHealthcheckReadiness.bind(this));
     }

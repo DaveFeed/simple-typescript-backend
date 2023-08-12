@@ -1,8 +1,11 @@
 import { Request, NextFunction, Response } from 'express';
+
 import { logger } from 'src/libs/logger';
+
 import { StandardError } from 'src/domain/standard-error';
 import { ErrorCodes } from 'src/domain/errors';
-import { Middleware } from 'src/middlewares/types';
+
+import { Middleware } from 'src/domain/dto/types';
 
 export const jwtErrorHandler = () => {
     // eslint-disable-next-line

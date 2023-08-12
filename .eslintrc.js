@@ -5,27 +5,31 @@ module.exports = {
         'plugin:import/errors',
         'plugin:import/warnings',
         'plugin:import/typescript',
-        'plugin:jest/recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:prettier/recommended'
     ],
     plugins: ['filenames'],
     parserOptions: {
         project: './tsconfig.json',
-        ecmaVersion: 2018,
-        sourceType: 'module'
+        createDefaultProgram: true,
     },
     rules: {
         'import/no-default-export': 'error',
         'import/prefer-default-export': 'off',
         '@typescript-eslint/interface-name-prefix': 'off',
-        'class-methods-use-this': 'error',
+        'class-methods-use-this': 'off',
+        'intend': 'off',
+        '@typescript-eslint/indent': 'off',
+        'import/extensions': 'off',
+        'no-param-reassign': 'off',
+        'no-plusplus': 'off',
         'filenames/match-regex': [2, '^[0-9a-z-.]+$', true],
-        intend: 'off',
-        'no-param-reassign': 0
-    },
-    env: {
-        'jest/globals': true
+        "prettier/prettier": [
+            "error",
+            {
+              "endOfLine": "auto"
+            }
+        ],
     },
     settings: {
         'import/resolver': {
@@ -36,6 +40,3 @@ module.exports = {
         }
     }
 };
-//? For testing add this
-// npx husky add .husky/pre-commit "npm test"
-// git add .husky/pre-commit
